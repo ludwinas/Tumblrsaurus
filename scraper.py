@@ -8,9 +8,9 @@ import time, random
 username = "crendice"
 iURL = "http://"+username+".tumblr.com/api/read/"
 URL = ""
-urlList = []
 step = 20
 #GLOBAL
+urlList = []
 maxIterations = 0
 currentIteration = 0
 
@@ -33,29 +33,29 @@ def getTotal():
 
 def iterationCheck():
 	global currentIteration
+	global urlList
 	if currentIteration < maxIterations:
-		print "di"
+		print currentIteration
 		num = str(step*currentIteration)
 		URL = iURL+"?start="+num
 #		print URL
 		iterate(URL)
 	else:
 		print "job finished"
+		print urlList
 
 def iterate(URL):
 	global currentIteration
+	global urlList
 	time.sleep(random.randint(1,3))
 	XML = fetch(URL)
 	root = etree.fromstring(XML)
 	for post in root.iterfind(".//post"):
+		#THIS IS the loop that fetches the post url
+		#we can also get other informations about it (like the post type)
 		urlList.append(post.attrib['url'])
-	print urlList
 	currentIteration+=1
 	iterationCheck()
 
 getTotal()
 iterationCheck()
-
-
-
-
