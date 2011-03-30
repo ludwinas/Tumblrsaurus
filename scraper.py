@@ -5,7 +5,7 @@ from lxml import etree
 import urllib2
 import time, random
 
-username = "crendice"
+username = "ludwinas"
 iURL = "http://"+username+".tumblr.com/api/read/"
 URL = ""
 step = 20
@@ -51,9 +51,13 @@ def iterate(URL):
 	XML = fetch(URL)
 	root = etree.fromstring(XML)
 	for post in root.iterfind(".//post"):
+		if post.attrib['type']=='photo':
+			urlList.append(post.attrib['url'])
+			
+		else:
+			print "no photo here"
 		#THIS IS the loop that fetches the post url
 		#we can also get other informations about it (like the post type)
-		urlList.append(post.attrib['url'])
 	currentIteration+=1
 	iterationCheck()
 
